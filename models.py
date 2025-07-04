@@ -1,11 +1,16 @@
 from datetime import datetime
+
 from app import db
+
+from flask_login import UserMixin
+
 
 class User(db.Model):
     id = db.Column (db.Integer, primary_key = True)
     name = db.Column(db.String(100), nullable = False, unique = True)
     email = db.Column(db.String(100), nullable = False, unique = True)
-    password = db.Column(db.String(100), nullable = False, unique = False)
+    password_hash = db.Column(db.String(256), nullable = False, unique = False)
+    is_active = db.Column(db.Boolean, default=True)
     def __str__(self):
         return self.name
     
@@ -31,7 +36,12 @@ class Comment(db.Model):
         "User",
         backref = db.backref("comments", lazy=True)
     )
+    
     def __str__(self):
         return self.text_comment
+    
+
+
+
 
     

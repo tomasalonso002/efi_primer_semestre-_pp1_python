@@ -1,12 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <a href="/new_user.html">Nuevo Usuario</a>
+{% extends 'layout.html' %}
+{% block head_title %}Klick{% endblock %}
+{% block body %}
+<div class="container text-center mt-5">
+    <div class="card shadow-lg p-4 border-0">
+        {% if current_user.is_authenricated  %}
+            <h3>Hola como estas</h3>
+        {% else %}
+            <h3 class="mb-3 text-primary">Bienvenidos a <strong>Klick</strong></h3>
+            <p class="lead text-muted">Por favor, registrate o iniciá sesión para poder ingresar.</p>
+            <div class="d-flex justify-content-center mt-4 gap-3">
+                <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg">Iniciar Sesión</a>
+                <a href="{{ url_for('register') }}" class="btn btn-outline-primary btn-lg">Registrarse</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
 
-</body>
-</html>
+
+
+{% endblock %}
