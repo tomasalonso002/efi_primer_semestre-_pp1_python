@@ -10,11 +10,11 @@
         <form method="POST" action="{{ url_for('login') }}">
             <div class="mb-3">
                 <label for="username" class="form-label">Nombre de usuario</label>
-                <input type="text" class="form-control" id="username" placeholder="tomas_alonso02" required>
+                <input type="text" class="form-control" id="username" name="username" placeholder="tomas_alonso02" required>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" required>
+                <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <div class="d-grid mb-3">
                 <button type="submit" class="btn btn-outline-primary">Iniciar Sesión</button>

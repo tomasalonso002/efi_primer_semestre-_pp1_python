@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{% block head_title %}Klick{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4 border-0">
+        <h4 class="mb-4 text-primary">Crear nueva publicación</h4>
+        <form method="POST" action="{{ url_for('inicio') }}">
+            <input type="hidden" name="form_type" value="post">
+            <div class="mb-3">
+                <label for="title" class="form-label">Título</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Ingresá un título..." required>
+            </div>
+
+            <div class="mb-3">
+                <label for="content" class="form-label">Contenido</label>
+                <textarea class="form-control" id="content" name="content" rows="6" placeholder="Escribí tu contenido..." required></textarea>
+            </div>
+
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary">Publicar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="card shadow-lg p-4 border-0">
+        {% for post in posts %}
+            <div class="card mb-3 shadow-sm p-3">
+                <h5>{{ post.autor}}</h5>
+                <h4>{{ post.title }}</h4>
+                <p>{{ post.content }}</p>
+                <p>{{ post.date_time }}</p>
+                <br>
+                <h5>Compemtarios</h5>
+                <form method="POST" action="{{ url_for('inicio') }}">
+                    <input type="hidden" name="form_type" value="comment">
+                    <label for="comment" class="form-label"></label>
+                    <input type="text" max="150" placeholder="responder..." neme="comment" id="comment" name="form_type" value="post">
+                    <button type="submit" class="btn btn-primary">Publicar</button>
+                </form>
+
+            </div>
+        {% else %}
+            <p>No hay publicaciones realizadas</p>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+{% endblock %}

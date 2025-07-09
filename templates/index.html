@@ -3,15 +3,20 @@
 {% block body %}
 <div class="container text-center mt-5">
     <div class="card shadow-lg p-4 border-0">
-        {% if current_user.is_authenricated  %}
-            <h3>Hola como estas</h3>
+        {% if current_user.is_authenticated %}
+            <!-- Contenido para usuarios logueados (podés agregar algo si querés) -->
         {% else %}
-            <h3 class="mb-3 text-primary">Bienvenidos a <strong>Klick</strong></h3>
-            <p class="lead text-muted">Por favor, registrate o iniciá sesión para poder ingresar.</p>
-            <div class="d-flex justify-content-center mt-4 gap-3">
-                <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg">Iniciar Sesión</a>
-                <a href="{{ url_for('register') }}" class="btn btn-outline-primary btn-lg">Registrarse</a>
-            </div>
+            <h3 class="mb-3 text-primary">¡Bienvenidos a <strong>Klick!</strong></h3>
+            <p class="lead text-muted">
+                Publicá. Compartí. Descubrí.<br>
+                Un lugar donde podés escribir lo que quieras y leer lo que otros comparten.
+            </p>
+            <p class="lead text-muted">Simple, directo y sin vueltas.</p>
+            <img 
+                src="https://st3.depositphotos.com/4218696/34233/i/450/depositphotos_342332984-stock-photo-woman-using-laptop-browsing-internet.jpg"
+                alt="Persona usando una computadora" 
+                class="img-fluid rounded mb-4"
+                style="max-height: 300px; object-fit: cover;">
         {% endif %}
     </div>
 </div>

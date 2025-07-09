@@ -13,6 +13,8 @@ from flask_migrate import Migrate
 #importacion para la db
 from flask_sqlalchemy import SQLAlchemy
 
+from sqlalchemy import desc
+
 #importacion para login
 from flask_login import (
     LoginManager,
@@ -21,6 +23,7 @@ from flask_login import (
     logout_user,
     current_user,
     )
+
 #importacion para hashear la contraseña
 from werkzeug.security import(
     check_password_hash,
@@ -59,12 +62,32 @@ def index():
         "index.html",
         fecha = datetime.today()
     )
+    
 #metodo para el login
-@app.route("/login")
+@app.route("/login", methods=["GET","POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("mi_muro"))
+    
+    if request.method == "POST":
+
+        name = request.form["username"]
+        password = request.form["password"]
+    
+        user = User.query.filter_by(name=name).first()
+        if user and check_password_hash(pwhash=user.password_hash, password=password):
+            login_user(user)
+            return redirect(url_for("mi_muro"))
+        
+        elif user is None:
+            flash("Usuario no encontrado", "danger")
+            return redirect(url_for('login'))
+
+        
     return render_template(
         "auth/login.html"
     )
+      
 #metodo para el register
 @app.route("/register", methods=["GET","POST"])
 def register():
@@ -100,6 +123,7 @@ def register():
         db.session.commit()
         flash("Usuario creado correctamente", "success")
         return redirect(url_for("login"))
+    
     return render_template(
         "auth/register.html"
     )
@@ -112,10 +136,45 @@ def logout():
 
 #metodo para el template de mi muro
 @app.route("/mi_muro")
-#@login_required
+@login_required
 def mi_muro():
     return render_template(
         "mi_muro.html"
     )
+
+    
+@app.route("/inicio", methods=["GET","POST"])
+@login_required
+def inicio():
+    if request.method == "POST":
+        form_type = request.form.get("form_type")
+        if form_type == "post":
+            title = request.form["title"]
+            content = request.form["content"]
+            date_time = datetime.now()
+            user_id = current_user.id
+            new_post =  Post(
+            title = title,
+            content = content,
+            date_time = date_time,
+            user_id = user_id
+            )
+            db.session.add(new_post)
+            db.session.commit()
+            return redirect(url_for("inicio"))
+        elif form_type == "comment"
+            text_comment = request.form["comment"]
+            new_comment = Comment(
+            text_comment = text_comment,
+            date_time = date_time.now(),
+            user_id = current_user.id
+            )
+            db.session.add(new_comment)
+            db.session.commit()
+    posts = Post.query.order_by(desc(Post.date_time)).all()
+    return render_template("inicio.html", posts=posts)
+        
+        
+    
     
     
