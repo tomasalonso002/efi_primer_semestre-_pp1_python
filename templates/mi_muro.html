@@ -3,7 +3,20 @@
 {% block head_title %}Klick{% endblock %}
 
 {% block body %}
-<h3>¡Holaa, {{ current_user.name }}!</h3>
-<h2>Tus Posteos<h2>
+<h3>¡Holaa, {{ current_user.name }}! Como estas hoy?</h3>
+
+<h5>Tus Posteos:</h5>
+
+{% for post in posts %}
+    <div class="card mb-3 shadow-sm p-3">
+        <h4>{{ post.title }}</h4>
+        <p>{{ post.content }}</p>
+        <p>{{ post.date_time }}</p>
+        <br>
+    </div>
+{% else %}
+    <p>No hay publicaciones realizadas, ponete las pilas chee!</p>
+{% endfor %}
+
 {% endblock %}
 

@@ -35,13 +35,13 @@
                 <p>{{ post.date_time }}</p>
                 <br>
                 <h5>Compemtarios</h5>
+                
                 <form method="POST" action="{{ url_for('inicio') }}">
                     <input type="hidden" name="form_type" value="comment">
                     <label for="comment" class="form-label"></label>
-                    <input type="text" max="150" placeholder="responder..." neme="comment" id="comment" name="form_type" value="post">
+                    <input type="text" max="150" placeholder="responder..." neme="comment" id="comment" name="form_type">
                     <button type="submit" class="btn btn-primary">Publicar</button>
                 </form>
-
             </div>
         {% else %}
             <p>No hay publicaciones realizadas</p>

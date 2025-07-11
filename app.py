@@ -138,8 +138,9 @@ def logout():
 @app.route("/mi_muro")
 @login_required
 def mi_muro():
+    posts = Post.query.filter_by(user_id=current_user.id).order_by(desc(Post.date_time)).all()
     return render_template(
-        "mi_muro.html"
+        "mi_muro.html", posts = posts
     )
 
     
@@ -162,17 +163,19 @@ def inicio():
             db.session.add(new_post)
             db.session.commit()
             return redirect(url_for("inicio"))
-        elif form_type == "comment"
+        elif form_type == "comment":
             text_comment = request.form["comment"]
             new_comment = Comment(
             text_comment = text_comment,
-            date_time = date_time.now(),
+            date_time = datetime.now(),
             user_id = current_user.id
             )
             db.session.add(new_comment)
             db.session.commit()
+            return redirect(url_for("inicio"))
     posts = Post.query.order_by(desc(Post.date_time)).all()
-    return render_template("inicio.html", posts=posts)
+    comments = Comment.query.order_by(desc(Comment.date_time)).all()
+    return render_template("inicio.html", posts=posts, comments = comments)
         
         
     

@@ -21,6 +21,11 @@ class Post(db.Model):
     date_time = db.Column(db.DateTime, nullable = False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     is_active = db.Column(db.Boolean, default=True)
+    category_id = db.Column(db.Integer, db.ForeignKey("category.id"), nullable =False)
+    category = db.relationship(
+        "Category",
+        backref = db.backref("posts", lazy=True)
+    )
     autor = db.relationship(
         "User",
         backref = db.backref("posts", lazy=True)
@@ -34,6 +39,12 @@ class Comment(db.Model):
     date_time = db.Column(db.DateTime, nullable = False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable= False)
     is_active = db.Column(db.Boolean, default=True)
+    post_id = db.Column(db.Integer, db.ForeignKey("post.id"), nullable= False)
+    
+    post = db.relationship(
+        "Post",
+        backref = db.backref("comments", lazy=True)
+    )
     autor = db.relationship(
         "User",
         backref = db.backref("comments", lazy=True)
@@ -42,7 +53,13 @@ class Comment(db.Model):
     def __str__(self):
         return self.text_comment
     
-
+class Category(db.Model):
+    id = db.Column (db.Integer, primary_key = True)
+    type_category = db.Column(db.Text, nullable = False)
+    is_active = db.Column(db.Boolean, default=True)
+    
+    def __str__(self):
+        return self.type_category
 
 
 
