@@ -3,6 +3,8 @@
 {% block head_title %}Klick{% endblock %}
 
 {% block body %}
+
+<!--Crear un post-->
 <div class="container mt-5">
     <div class="card shadow-lg p-4 border-0">
         <h4 class="mb-4 text-primary">Crear nueva publicación</h4>
@@ -10,12 +12,22 @@
             <input type="hidden" name="form_type" value="post">
             <div class="mb-3">
                 <label for="title" class="form-label">Título</label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="Ingresá un título..." required>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Ingresá un título..." required style="border: 1px solid #1e83f0;">
             </div>
 
             <div class="mb-3">
                 <label for="content" class="form-label">Contenido</label>
-                <textarea class="form-control" id="content" name="content" rows="6" placeholder="Escribí tu contenido..." required></textarea>
+                <textarea class="form-control" id="content" name="content" rows="3" placeholder="Escribí tu contenido..." required style="border: 1px solid #1e83f0; resize: none;"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="category" class="form-label">Categoria</label>                
+                <select name="category" id="category" required>
+                    <option value="" disabled selected>Elegir Categoria</option>
+                    {% for categoria in categorias  %}
+                        <option value="{{ categoria.id }}">{{ categoria.type_category }}</option>
+                    {% endfor %}
+                </select>
             </div>
 
             <div class="d-grid mb-3">
@@ -25,6 +37,18 @@
     </div>
 </div>
 
+<!--Filtrar por..-->
+<div class="mb-3">
+    <label for="category" class="form-label">Filtrapor categoria</label>                
+    <select name="category" id="category" required>
+        <option value="todas" disabled selected>Todas</option>
+        {% for categoria in categorias  %}
+            <option value="{{ categoria.id }}">{{ categoria.type_category }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<!--Mostrar los post-->
 <div class="container mt-5">
     <div class="card shadow-lg p-4 border-0">
         {% for post in posts %}
@@ -33,11 +57,13 @@
                 <h4>{{ post.title }}</h4>
                 <p>{{ post.content }}</p>
                 <p>{{ post.date_time }}</p>
+                <p>Categoría: {{ post.category.type_category }}</p>
                 <br>
+                <!--Comentarios-->
                 <h5>Compemtarios</h5>
-                
                 <form method="POST" action="{{ url_for('inicio') }}">
                     <input type="hidden" name="form_type" value="comment">
+                    <input type="hidden" name="post_id" value="{{ post.id }}">
                     <label for="comment" class="form-label"></label>
                     <input type="text" max="150" placeholder="responder..." neme="comment" id="comment" name="form_type">
                     <button type="submit" class="btn btn-primary">Publicar</button>

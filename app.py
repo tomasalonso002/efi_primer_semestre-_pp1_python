@@ -48,7 +48,7 @@ login_manager= LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 #importacion de los models para poder hacer los migrates
-from models import User, Post, Comment
+from models import User, Post, Comment, Category
 
 
 @login_manager.user_loader
@@ -152,30 +152,36 @@ def inicio():
         if form_type == "post":
             title = request.form["title"]
             content = request.form["content"]
+            category_id = request.form["category"]
+            
             date_time = datetime.now()
             user_id = current_user.id
             new_post =  Post(
             title = title,
             content = content,
             date_time = date_time,
-            user_id = user_id
+            user_id = user_id,
+            category_id = category_id
             )
             db.session.add(new_post)
             db.session.commit()
             return redirect(url_for("inicio"))
         elif form_type == "comment":
             text_comment = request.form["comment"]
+            post_id = request.form.get("post_id")
             new_comment = Comment(
             text_comment = text_comment,
             date_time = datetime.now(),
-            user_id = current_user.id
+            user_id = current_user.id,
+            post_id = int(post_id)
             )
             db.session.add(new_comment)
             db.session.commit()
             return redirect(url_for("inicio"))
+    categorias = Category.query.all()
     posts = Post.query.order_by(desc(Post.date_time)).all()
     comments = Comment.query.order_by(desc(Comment.date_time)).all()
-    return render_template("inicio.html", posts=posts, comments = comments)
+    return render_template("inicio.html", posts=posts, comments = comments, categorias=categorias)
         
         
     

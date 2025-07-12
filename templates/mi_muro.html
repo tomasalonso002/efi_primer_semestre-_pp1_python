@@ -8,10 +8,11 @@
 <h5>Tus Posteos:</h5>
 
 {% for post in posts %}
-    <div class="card mb-3 shadow-sm p-3">
+    <div class="card mb-3 shadow-sm p-3" style="border: 1px solid #1e83f0;">
         <h4>{{ post.title }}</h4>
         <p>{{ post.content }}</p>
         <p>{{ post.date_time }}</p>
+        <p>Categoría: {{ post.category.type_category }}</p>
         <br>
     </div>
 {% else %}
