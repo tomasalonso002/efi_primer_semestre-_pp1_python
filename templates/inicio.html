@@ -37,17 +37,6 @@
     </div>
 </div>
 
-<!--Filtrar por..-->
-<div class="mb-3">
-    <label for="category" class="form-label">Filtrapor categoria</label>                
-    <select name="category" id="category" required>
-        <option value="todas" disabled selected>Todas</option>
-        {% for categoria in categorias  %}
-            <option value="{{ categoria.id }}">{{ categoria.type_category }}</option>
-        {% endfor %}
-    </select>
-</div>
-
 <!--Mostrar los post-->
 <div class="container mt-5">
     <div class="card shadow-lg p-4 border-0">
