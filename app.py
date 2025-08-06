@@ -38,7 +38,7 @@ app.secret_key = "cualquiercosa"
 
 #coneccion con la db
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "mysql+pymysql://root:@localhost/mini_blog_efi_2"
+    "mysql+pymysql://root:@localhost/mini_blog_efi"
     )
 db = SQLAlchemy(app)
 migrate = Migrate(app,db)
