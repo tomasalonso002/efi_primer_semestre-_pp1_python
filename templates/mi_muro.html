@@ -8,13 +8,32 @@
 <h5>Tus Posteos:</h5>
 
 {% for post in posts %}
-    <div class="card mb-3 shadow-sm p-3" style="border: 1px solid #1e83f0;">
-        <h4>{{ post.title }}</h4>
-        <p>{{ post.content }}</p>
-        <p>{{ post.date_time }}</p>
-        <p>Categoría: {{ post.category.type_category }}</p>
-        <br>
-    </div>
+    {% if post.is_active%}
+        <div class="card mb-3 shadow-sm p-3" style="border: 1px solid #1e83f0;">
+            <h4>{{ post.title }}</h4>
+            <p>{{ post.content }}</p>
+            <p>{{ post.date_time }}</p>
+            <p>Categoría: {{ post.category.type_category }}</p>
+            <br>
+            <!--Comentarios-->
+            <div class="card mb-3 shadow-sm p-3">
+                <h5>Comentarios</h5>
+                <div class="card mb-3 shadow-sm p-3">
+                    {% for comment in post.comments %}
+                        {% if comment.post_id == post.id %} 
+                            <h5> {{ comment.autor }}</h5>
+                            <p> {{ comment.text_comment }} </p>
+                            <p> {{ comment.date_time }} </p>
+                        {% endif %}
+                    {% else %}
+                        <p>Sin Comentarios...</p>
+                    {% endfor %}
+            </div>
+            <form action="{{url_for('delete_post', post_id = post.id)}}" method="post">
+                <button type="submit">Eliminar</button>
+            </form>
+        </div>
+    {% endif %}
 {% else %}
     <p>No hay publicaciones realizadas, ponete las pilas chee!</p>
 {% endfor %}

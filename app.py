@@ -142,6 +142,14 @@ def mi_muro():
     return render_template(
         "mi_muro.html", posts = posts
     )
+    
+#Eliminar un post cambiandole el valor de is_active
+@app.route("/post/delete/<int:post_id>", methods= ["POST"])
+def delete_post(post_id):
+    post_delate =  Post.query.get_or_404(post_id)
+    post_delate.is_active = 0
+    db.session.commit()
+    return redirect(url_for('mi_muro'))
 
     
 @app.route("/inicio", methods=["GET","POST"])
@@ -179,9 +187,10 @@ def inicio():
             db.session.commit()
             return redirect(url_for("inicio"))
     categorias = Category.query.all()
-    posts = Post.query.order_by(desc(Post.date_time)).all()
-    comments = Comment.query.order_by(desc(Comment.date_time)).all()
-    return render_template("inicio.html", posts=posts, comments = comments, categorias=categorias)
+    #posts = Post.query.order_by(desc(Post.date_time)).all()
+    posts = Post.query.filter_by(is_active=1).order_by(desc(Post.date_time)).all()    
+    # comments = Comment.query.order_by(desc(Comment.date_time)).all()
+    return render_template("inicio.html", posts=posts, categorias=categorias)
         
         
     

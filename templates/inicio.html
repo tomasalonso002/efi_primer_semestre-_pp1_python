@@ -46,17 +46,33 @@
                 <h4>{{ post.title }}</h4>
                 <p>{{ post.content }}</p>
                 <p>{{ post.date_time }}</p>
-                <p>Categoría: {{ post.category.type_category }}</p>
+                <p>Categoria: {{ post.category.type_category }}</p>
                 <br>
+
                 <!--Comentarios-->
-                <h5>Compemtarios</h5>
-                <form method="POST" action="{{ url_for('inicio') }}">
-                    <input type="hidden" name="form_type" value="comment">
-                    <input type="hidden" name="post_id" value="{{ post.id }}">
-                    <label for="comment" class="form-label"></label>
-                    <input type="text" max="150" placeholder="responder..." neme="comment" id="comment" name="form_type">
-                    <button type="submit" class="btn btn-primary">Publicar</button>
-                </form>
+                <div class="card mb-3 shadow-sm p-3">
+                    <h5>Comentarios</h5>
+                    <div class="card mb-3 shadow-sm p-3">
+                    {% for comment in post.comments %}
+                        {% if comment.post_id == post.id %} 
+                         <h5> {{ comment.autor }}</h5>
+                          <p> {{ comment.text_comment }} </p>
+                          <p> {{ comment.date_time }} </p>
+                      {% endif %}
+                    {% else %}
+                    <p>Sin Comentarios...</p>
+                    {% endfor %}
+                    </div>
+                
+                
+                    <form method="POST" action="{{ url_for('inicio') }}">
+                        <input type="hidden" name="form_type" value="comment">
+                        <input type="hidden" name="post_id" value="{{ post.id }}">
+                        <label for="comment" class="form-label"></label>
+                        <input type="text" maxlength="200" placeholder="Responder..." name="comment" id="comment">
+                        <button type="submit" class="btn btn-primary">Publicar</button>
+                    </form>
+                </div>
             </div>
         {% else %}
             <p>No hay publicaciones realizadas</p>
