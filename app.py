@@ -187,9 +187,7 @@ def inicio():
             db.session.commit()
             return redirect(url_for("inicio"))
     categorias = Category.query.all()
-    #posts = Post.query.order_by(desc(Post.date_time)).all()
     posts = Post.query.filter_by(is_active=1).order_by(desc(Post.date_time)).all()    
-    # comments = Comment.query.order_by(desc(Comment.date_time)).all()
     return render_template("inicio.html", posts=posts, categorias=categorias)
         
         
