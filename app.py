@@ -102,7 +102,7 @@ def register():
         password = request.form["password"]
         
         #verificacion que no exista el nombre de usuario
-        user = User.query.filter_by(name=name).first()
+        user = db.session.query(User).filter(User.name == name).first()
         if user:
             flash("El nombre de usuario no esta disponible", "error")
             return redirect(url_for("register"))
