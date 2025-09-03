@@ -74,7 +74,7 @@ def login():
         name = request.form["username"]
         password = request.form["password"]
     
-        user = User.query.filter_by(name=name).first()
+        user = User.query.filter(User.name == name).first()
         if user and check_password_hash(pwhash=user.password_hash, password=password):
             login_user(user)
             return redirect(url_for("mi_muro"))
