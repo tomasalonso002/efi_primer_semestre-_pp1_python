@@ -38,7 +38,7 @@ app.secret_key = "cualquiercosa"
 
 #coneccion con la db
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "mysql+pymysql://root:@localhost/mini_blog_efi"
+    "postgresql://db_klick_user:GN34OgPiWlCG6tj8trA7iMbYXrpDUcpA@dpg-d2s35hvdiees739b5hpg-a:5432/db_klick"
     )
 db = SQLAlchemy(app)
 migrate = Migrate(app,db)
@@ -189,6 +189,10 @@ def inicio():
     categorias = Category.query.all()
     posts = Post.query.filter_by(is_active=1).order_by(desc(Post.date_time)).all()    
     return render_template("inicio.html", posts=posts, categorias=categorias)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
         
         
     
