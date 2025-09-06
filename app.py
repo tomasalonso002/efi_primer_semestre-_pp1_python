@@ -40,9 +40,14 @@ app.secret_key = "cualquiercosa"
 
 
 # Configuración para Clever Cloud
+#app.config["SQLALCHEMY_DATABASE_URI"] = (
+#    f"mysql+pymysql://{os.environ['MYSQL_USER']}:{os.environ['MYSQL_PASSWORD']}@"
+#    f"{os.environ['MYSQL_HOST']}:{os.environ['MYSQL_PORT']}/{os.environ['MYSQL_DB']}"
+#)
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-    f"mysql+pymysql://{os.environ['MYSQL_USER']}:{os.environ['MYSQL_PASSWORD']}@"
-    f"{os.environ['MYSQL_HOST']}:{os.environ['MYSQL_PORT']}/{os.environ['MYSQL_DB']}"
+    "mysql+pymysql://umxnwsbwkclpvycq:YjEX2rsYKFK3kMQQjM3g@"
+    "b8q5w1qdvo7omjytxant-mysql.services.clever-cloud.com:3306/"
+    "b8q5w1qdvo7omjytxant"
 )
 
 db = SQLAlchemy(app)
