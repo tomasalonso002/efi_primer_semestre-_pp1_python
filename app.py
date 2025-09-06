@@ -24,6 +24,8 @@ from flask_login import (
     current_user,
     )
 
+import os
+
 #importacion para hashear la contraseña
 from werkzeug.security import(
     check_password_hash,
@@ -36,10 +38,13 @@ app = Flask(__name__)
 #Secret key para sesiones seguras
 app.secret_key = "cualquiercosa"
 
-#coneccion con la db
+
+# Configuración para Clever Cloud
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "mysql+pymysql://root:@localhost/mini_blog_efi"
-    )
+    f"mysql+pymysql://{os.environ['MYSQL_USER']}:{os.environ['MYSQL_PASSWORD']}@"
+    f"{os.environ['MYSQL_HOST']}:{os.environ['MYSQL_PORT']}/{os.environ['MYSQL_DB']}"
+)
+
 db = SQLAlchemy(app)
 migrate = Migrate(app,db)
 
